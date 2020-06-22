@@ -5,17 +5,22 @@ const fetchData = async (searchResult) => {
       s: searchResult,
     }
   });
-  console.log(response.data);
+  if (response.data.Error)
+    return [];
+  return response.data.Search;
 }
-let timeoutId;
-const input = document.querySelector('input');
-const onInput = (event) => {
-  if (timeoutId) {
-    clearTimeout(timeoutId);
-  }
-  timeoutId = setTimeout(() => {
-    fetchData(event.target.value);
-  }, 1000)
 
+
+const input = document.querySelector('input');
+const onInput = async (event) => {
+  const movies = await fetchData(event.target.value);
+  movies.map(movie => {
+    const div = document.createElement('div');
+    div.innerHTML = `
+<img src="${movie.Poster}"/>
+<h1>${movie.Title}</h1>
+`;
+    document.querySelector('#target').appendChild(div);
+  });
 }
-input.addEventListener('input', onInput);
+input.addEventListener('input', debounce(onInput));
