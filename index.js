@@ -26,16 +26,26 @@ const dropdown = document.querySelector('.dropdown');
 const resultsWrapper = document.querySelector('.results');
 const onInput = async (event) => {
   const movies = await fetchData(event.target.value);
+  if (!movies.length) {
+    dropdown.classList.remove('is-active');
+    return;
+  }
   resultsWrapper.innerHTML = '';
   dropdown.classList.add('is-active');
   movies.map(movie => {
     const option = document.createElement('a');
+    const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
     option.classList.add('dropdown-item');
     option.innerHTML = `
-<img src="${movie.Poster}"/>
+<img src="${imgSrc}"/>
 ${movie.Title}
 `;
     resultsWrapper.appendChild(option);
   });
 }
 input.addEventListener('input', debounce(onInput));
+document.addEventListener('click', event => {
+  if (!root.contains(event.target)) {
+    dropdown.classList.remove('is-active');
+  }
+})
