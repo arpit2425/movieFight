@@ -10,7 +10,7 @@ figure.image {
   background-color: black;
 }
 
-figure .image img {
+figure.image img {
   width: 128px;
 }
 
