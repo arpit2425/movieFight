@@ -62,6 +62,11 @@ const compareMovies = () => {
 
 }
 const movieTemplate = movieDetail => {
+  const dollars = movieDetail.BoxOffice.replace(/\$/g, "").replace(/,/g, "");
+  const metascore = parseInt(movieDetail.Metascore);
+  const imdbRating = parseFloat(movieDetail.imdbRating);
+  const imdbVotes = parseFloat(movieDetail.imdbVotes);
+
   return `
     <article class="media">
       <figure class="media-left">
